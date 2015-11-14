@@ -1,4 +1,4 @@
-Lab 4 - Clustering Data
+Lab 5 - Minwise Hashing
 =======================
 
 ## Table of Contents
@@ -9,7 +9,7 @@ Lab 4 - Clustering Data
 5. [Change Log](#change-log)
 
 ## Overview
-The purpose of this module is to implement two clustering algorithms (k-means, DBScan) on the feature vectors generated in lab 1. This module is built on the preprocessing module that sanitized a set of SGML documents representing a Reuters article database into a dataset of feature vectors and class labels. The results of the clustering algorithms will be employed in future assignments for automated categorization, similarity search, and building document graphs.
+The purpose of this module is to implement minwise hashing for estimating document similarity on the feature vectors generated in lab 1. This module is built on the preprocessing module that sanitized a set of SGML documents representing a Reuters article database into a dataset of feature vectors and class labels. The results of the clustering algorithms will be employed in future assignments for automated categorization, similarity search, and building document graphs.
 
 ## Description
 This python module contains the following files and directories:
@@ -29,25 +29,9 @@ This python module contains the following files and directories:
         * feature.py - sub-module for generating feature vector datasets
         * weighting.py - sub-module for computing tf-idf scores
         * featureselect.py - sub-module for feature selection/reduction
-* classification/ directory included but not used in lab
+* minwisehash/
     * \_\_init\_\_.py
-    * classification.py - module for classification of the feature vector datasets
-    * crossvalidator/
-        * \_\_init\_\_.py
-        * crossvalidator.py - submodule containing functionality for cross validation 
-    * classifiers
-        * \_\_init\_\_.py
-        * knearestneighbor.py - submodule for brute force knn classification
-        * knearestneighbor_balltree.py - submodule for ball tree knn classification
-        * decisiontree.py - submodule for decision tree classification 
-        * bayesian.py - submodule for multinomial naive bayes classification
-* clustering/
-    * \_\_init\_\_.py
-    * clustering.py - module for clustering Reuters Article database
-    * algorithm/
-        * \_\_init\_\_.py
-        * kmeans.py
-        * dbscan.py
+    * minwisehash - submodule for performing minwise hashing
 * data/
     * reut2-xxx.sgm - formatted articles (replace xxx from {000,...,021})
 
@@ -69,18 +53,10 @@ Potential additional to future iterations of feature vector generation:
 * binning: equal-width & equal-depth (grouping by topics/places, part-of-speech, etc)
 * entropy-based discretization (partitioning based on entropy calculations)
 
-The `clustering.py` file will produce the following 2x2x2 experiment results:
-
-* k-means using euclidean distance on the standard feature vector
-* k-means using euclidean distance on the pared feature vector
-* DBScan using euclidean distance on the standard feature vector
-* DBScan using euclidean distance on the pared feature vector
-
-
-For more information on how these classifiers were implemented and the offline/online costs, use the command:
+For more information on the implementation and the offline/online costs and accuracy, see:
 
 ```
-> less Report2.md
+> report5.pdf
 ```
 
 ## Usage
@@ -153,20 +129,19 @@ Lastly, ensure scikit-learn is installed:
 To run the code, first ensure the `lab4.py` file has execute privileges:
 
 ```
-> chmod +x lab4.py
+> chmod +x lab5.py
 ```
 
-Next, ensure the `preprocessing/` and `clustering/` directories and their filetrees are correct with respect to `lab4.py` (based on the file tree in the overview). Also,
-ensure there is a `data/` directory in the same folder as `preprocess.py` and the `data/` directory containing the `reut2-xxx.sgm` files is present. To begin preprocessing the data, run:
+Next, ensure the `preprocessing/` and `minwisehash/` directories and their filetrees are correct with respect to `lab5.py` (based on the file tree in the overview). Also, ensure there is a `data/` directory in the same folder as `preprocessing.py` and the `data/` directory containing the `reut2-xxx.sgm` files is present. To begin preprocessing the data, run:
 
 ```
-> python lab4.py
+> python lab5.py
 ```
 
 or
 
 ```
-> ./lab4.py
+> ./lab5.py
 ```
 
 The preprocessing and clustering might take some time to complete.
@@ -197,20 +172,14 @@ Once `clustering.py` finishes execution, the results of the 2x2 experiments will
 * Ankai Lou (lou.56@osu.edu)
 
 ## Change Log
-2015-10-28 - Version 1.0.2:
-* Added functionality for k-means clustering
-* Added functionality for dcscan clustering
-* Added functionality to compute cluster entropy
-* Added functionality to compute cluster variance
+2015-11-14 - Version 1.0.0:
+* Initial code import
+* Modified feature vector to be 0/1 instead of continuous
+* Added functionality to compute baseline jaccard similarity
+* Added functionality to generate randomized hash functions
+* Added functionality to compute minwise hash sketch and signatures
+* Added functionality to compute similarity of document signatures
+* Added functionality to report runtime and accuracy of the code
 * Basic code requirements fulfilled
 * TODO: clean up code + make it faster & more modular
 * TODO: write report in latex
-
-2015-10-28 - Version 1.0.0:
-
-* Initial code import
-* Added functionality to generate parse tree
-* Added functionality to generate document objects
-* Added functionality to tokenize, stem, and filter words
-* Added functionality to generate lexicons for title & body words
-* Prepare documents for feature selection & dataset generation
